@@ -4,6 +4,8 @@ import { Power0 } from "gsap";
 import { Power3 } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 gsap.registerPlugin(ScrollToPlugin);
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 import Glide from "@glidejs/glide";
 import SmoothScroll from "smooth-scroll";
 
@@ -18,6 +20,8 @@ function start() {
   productImage();
   filter();
   scrollBeh();
+  fadeInOnScroll();
+  currentCategory();
 }
 
 function scrollToTop() {
@@ -123,6 +127,10 @@ function onlyBody() {
 }
 
 function menu() {
+  const header = document.querySelector("header");
+
+  if(header){
+
   document
     .querySelector(".mobile-menu-icon")
     .addEventListener("click", function () {
@@ -168,6 +176,7 @@ function menu() {
         this.classList.add("opened");
       }
     });
+  }
 }
 
 function reviews() {
@@ -178,8 +187,13 @@ function reviews() {
       perView: 3,
       breakpoints: {
         768: {
-          perView: 1,
-          autoplay: 3000,
+          /* perView: 1,
+          autoplay: 3000, */
+          perView: 2,
+          autoplay: true,
+          animationTimingFunc: 'linear',
+          animationDuration: 10000,
+          type: 'carousel'
         },
       },
     };
@@ -222,11 +236,10 @@ function filter() {
         });
 
         gsap.to(".categories", 0.3, {
-          y: "-110%"
-        })
+          y: "-110%",
+        });
 
         this.classList.remove("opened");
-
       } else {
         gsap.to(".circleUp", {
           x: 85,
@@ -239,18 +252,18 @@ function filter() {
         });
 
         gsap.to(".categories", 0.3, {
-          y: "-10%"
-        })
+          y: "-10%",
+        });
 
         this.classList.add("opened");
       }
     });
 
-    document.querySelectorAll(".categories li a").forEach(link =>{
-      link.addEventListener("click", function(){
+    document.querySelectorAll(".categories li a").forEach((link) => {
+      link.addEventListener("click", function () {
         gsap.to(".categories", 0.3, {
-          y: "-110%"
-        })
+          y: "-110%",
+        });
 
         gsap.to(".circleUp", {
           x: 0,
@@ -263,13 +276,56 @@ function filter() {
         });
 
         filterIcon.classList.remove("opened");
-      })
-    })
+      });
+    });
   }
 }
 
-function scrollBeh(){
-  var scroll = new SmoothScroll('a[href*="#"]',{
-    header: '[data-scroll-header]'
+function scrollBeh() {
+  var scroll = new SmoothScroll('a[href*="#"]', {
+    header: "[data-scroll-header]",
   });
+}
+
+function fadeInOnScroll(){
+
+const productPage = document.querySelector(".productPage");
+
+if(productPage){
+
+  gsap.utils.toArray(".oneProduct").forEach(section => {
+    gsap.from(section.querySelectorAll("a, div"), {
+      scrollTrigger: section,
+      opacity: 0,
+      y: 25,
+      duration: 0.75,
+      stagger: 0.05
+    });
+  });
+
+}
+}
+
+function currentCategory(){
+
+  const productPage = document.querySelector(".productPage");
+
+  if(productPage){
+
+  const sections = document.querySelectorAll(".categorySection");
+
+  sections.forEach(section=>{
+    ScrollTrigger.matchMedia({
+      "(min-width: 866px)": function() {
+        ScrollTrigger.create({
+          trigger: section,
+          start: "top center",
+          end: "bottom center",
+          toggleClass: {targets: `a[data-category="${section.dataset.category}"]`, className: "boldText"}
+        })
+      }
+    })
+    
+  })
+}
 }

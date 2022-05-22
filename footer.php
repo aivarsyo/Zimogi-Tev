@@ -1,8 +1,8 @@
 <footer>
 
-    <img class="advertisement2" src="https://dummyimage.com/1200x300/#AFAFA/ffffff.png" />
+    <div style="background-image: url(<?php the_field("omniva", "option") ?>)" class="advertisement2"></div>
     <div class="reviews">
-        <p class="reviews__title">What do our customers say about us?</p>
+        <p class="reviews__title"><?php the_field("customers_title", "option") ?></p>
         <div class="reviews__box glide glide-footer">
             <div class="glide__track" data-glide-el="track">
                 <ul class="glide__slides glide__slides-footer">
@@ -25,7 +25,7 @@
             <?php do_action('wpml_add_language_selector');?>
         </div>
         <div class="map__right">
-            <p>Kā atrast Zīmogi Tev?</p>
+            <p><?php the_field("maps_title", "option") ?></p>
             <iframe style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJC5wFCfHP7kYREch0GL8MkW8&key=AIzaSyAUG2eQIFU6YI6llozOKND3VPi6oEwdUGg">
             </iframe>
         </div>

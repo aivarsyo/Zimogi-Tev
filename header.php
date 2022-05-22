@@ -1,3 +1,5 @@
+<!-- Mājaslapu veidoja digitālā aģentūra "Rounda" - rounda.dk -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,7 +39,7 @@
 
     <header data-scroll-header>
 
-        <div class="logo"></div>
+    <a class="logo" href="<?php echo home_url(); ?>"><img src="<?php the_field("logo", "option") ?>"></a>
 
         <?php
         wp_nav_menu(array(

@@ -6,9 +6,25 @@
 
 get_header();
 
+global $page_number;
+
 ?>
 
-<img class="advertisement" src="https://dummyimage.com/1200x200/#AFAFA/ffffff.png" />
+<?php if (ICL_LANGUAGE_CODE == 'lv') :
+    $page_number = 12;
+?>
+<?php elseif (ICL_LANGUAGE_CODE == 'ru') :
+    $page_number = 161;
+?>
+<?php elseif (ICL_LANGUAGE_CODE == 'en') :
+    $page_number = 157;
+?>
+<?php endif; ?>
+
+<div class="advertisement">
+    <!-- <section style="background-image: url(<?php the_field("header_pic", $page_number) ?>)"></section> -->
+    <video src="<?php the_field("header_video", $page_number) ?>" muted autoplay playsinline></video>
+</div>
 
 <div class="filter-icon">
     <svg version="1.1" id="filter-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 180 180" style="enable-background:new 0 0 180 180;" xml:space="preserve">
@@ -61,8 +77,8 @@ get_header();
         $order = 'asc';
         $hide_empty = true;
         $cat_args = array(
-            'orderby'    => $orderby,
-            'order'      => $order,
+            /* 'orderby'    => $orderby,
+            'order'      => $order, */
             'hide_empty' => $hide_empty,
         );
 
@@ -76,7 +92,7 @@ get_header();
                 echo '
  
 <li>';
-                echo '<a data-scroll href="#' . $category->slug . '" >';
+                echo '<a data-scroll data-category="' . $category->slug . '" href="#' . $category->slug . '" >';
                 echo $category->name;
                 echo '</a>';
                 echo '</li>';
@@ -92,16 +108,9 @@ get_header();
 
     </div>
 
-    <?php if (ICL_LANGUAGE_CODE == 'lv') :
-        get_template_part('productCategories-lv');
-    ?>
-    <?php elseif (ICL_LANGUAGE_CODE == 'ru') :
 
-    ?>
-    <?php elseif (ICL_LANGUAGE_CODE == 'en') :
-        get_template_part('productCategories-en');
-    ?>
-    <?php endif; ?>
+    <?php get_template_part('productCategories'); ?>
+
 
 </main>
 
